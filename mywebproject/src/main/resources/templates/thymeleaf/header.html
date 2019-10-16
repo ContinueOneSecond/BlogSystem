@@ -1,0 +1,92 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+		
+  </head>
+  <body>
+	<header th:fragment="header">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" th:href="@{/index}">我的网站</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarsExample09" aria-controls="navbarsExample09"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarsExample09">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item"><a class="nav-link" href="#">博客</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">文章</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">文件</a>
+					</li>
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" href="http://example.com"
+						id="dropdown09" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false">一些玩意</a>
+						<div class="dropdown-menu " aria-labelledby="dropdown09">
+							<a class="dropdown-item" href="#">上传文件</a> 
+							<a class="dropdown-item" href="#">留言板</a> 
+							<a class="dropdown-item" href="#">注册</a>
+						</div>
+					</li>
+				</ul>
+								
+			<div th:switch ="(${session.username} != null ) and ${session.isLogin == true} ">			
+				<div th:case="false" >			
+					<a class="btn  btn-outline-success ml-2" href="#" role="button" data-toggle="modal" data-target="#exampleModalCenter" >登陆</a>
+					<a class="btn  btn-outline-primary ml-2" th:href="@{/index/resgiter}" role="button">注册</a>
+				</div>
+																
+				<div th:case="true">
+					<a class="mr-3 text-light" th:href="@{/index/uploadfile}" target="getUpload"title="上传文件"><span class="glyphicon glyphicon-upload"></span>文件</a>	
+					<a class="mr-3 text-light" th:href="@{/index/blog/editor}" target="getBlog" title="写博客"><span class="glyphicon glyphicon-pencil"></span>博客</a>											
+					<a class="mr-4 text-light" th:href="@{/index/blog/usermassage(pageIndex = 1,uid = ${session.uid})}" target="Blog" ><img class="rounded-circle" th:src="@{{userPortrait}(userPortrait = ${session.userPortrait})}" width="38px" height="38px"></img></a>
+					<a class="mr-2 text-light btn btn-outline-secondary" th:href="@{/index/logout}" role="button" id="logout"><span class="glyphicon glyphicon-log-out"></span>注销</a>
+				</div>
+			</div>
+		  </div>
+		</nav>
+		
+		<!-- 弹出框 -->
+		<div class="modal fade" id="exampleModalCenter" tabindex="-1"
+					role="dialog" aria-labelledby="exampleModalCenterTitle"
+					aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered" role="document" style="width: 450px;">
+						<div class="modal-content">
+							<div class="modal-header text-center" >
+								<h4 class="modal-title " id="exampleModalLongTitle" >登陆</h4>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+
+							<div class="modal-body" style="width:450px;">
+								<form method="post" id="loginform">
+									用户名：
+									<div class="input-group mb-3 ">
+										<input type="text" class="form-control"
+											th:placeholder="键入您的用户名"
+											 id="username" name="username" required>
+									</div>
+									密码
+									<div class="input-group mb-3 ">
+										<input type="password" class="form-control"
+											th:placeholder="键入您的密码" 
+											id="password" required>
+									</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"
+											data-dismiss="modal" id="close">关闭</button>
+									<button type="button" class="btn btn-success disabled" id="login" data-dismiss="modal" style="display: none;">登陆</button>
+									<button type="button" class="btn btn-success disabled" id="login2">登陆</button>
+								</div>
+							</form>
+							</div>							
+						</div>
+					</div>
+				</div>		
+	</header>
+	
+  </body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="stylesheet" href="css/bootstrap.css">
+
+<link rel="stylesheet"
+	href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+</head>
+
+<body>
+	<!-- header部分 -->
+	<div th:replace="thymeleaf/header::header"></div>
+
+	<!-- 主体部分 -->
+	<main role="main">
+	<div class="carousel-inner">
+		<div class="carousel-item active">
+			<img th:src="@{image/timg4.jpg}" width="1537" height="699">
+			<div class="container">
+				<div class="carousel-caption text-mind ">
+					<h1>致敬奋斗你</h1>
+					<p class="lead">越努力，越幸运</p>
+					<div
+						th:switch="(${session.username} != null ) and ${session.isLogin == true}">
+						<a th:case="false" href="#"
+							class="btn btn-outline-secondary"
+							data-toggle="modal" data-target="#exampleModalCenter">让今天开始吧</a> 
+							
+							<a th:case="true"
+							th:href="@{/index/blog/blogPage(pageIndex = 1,uid = ${session.uid})}"
+							target="Blog" class="btn btn-outline-secondary"><span
+							th:text="${session.username}+'，' "></span>让今天开始吧</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</main>
+
+	<script th:src="@{/index/jq/jquery-3.4.1.min.js}"
+		type="text/javascript"></script>
+
+	<!-- <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script> -->
+
+	<script
+		src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+
+	<script
+		src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+
+
+
+
+	<script type="text/javascript">
+	
+	$(function(){
+		var usernameIsExist = false;
+		var passwordIsExist = false;
+
+		var nullValue = "";
+
+		$("#username").keyup(function() {
+
+			var username = $("#username").val();
+
+			if (username == nullValue) {
+				usernameIsExist = false;
+			} else {
+				usernameIsExist = true;
+			}
+
+			if (usernameIsExist && passwordIsExist) {				
+				$("#login2").removeClass("disabled");
+				$("#login").removeClass("disabled");
+				$("#login2").hide();
+				$("#login").show();				
+			} else {				
+				$("#login").addClass("disabled");
+				$("#login2").addClass("disabled");
+				$("#login").hide();
+				$("#login2").show();
+			}
+
+		});
+
+		$("#password").keyup(function() {
+
+			var password = $("#password").val();
+
+			if (password == nullValue) {
+				passwordIsExist = false;
+			} else {
+				passwordIsExist = true;
+			}
+
+			if (usernameIsExist && passwordIsExist) {
+				
+				$("#login2").removeClass("disabled");
+				$("#login").removeClass("disabled");
+				$("#login2").hide();
+				$("#login").show();
+				
+			} else {				
+				$("#login").addClass("disabled");
+				$("#login2").addClass("disabled");
+				$("#login").hide();
+				$("#login2").show();
+			}
+
+		});
+
+		$("#close").click(function(){
+			alert($("#login2").prop('id'));
+			alert($("#login").prop('id'));
+			
+		})
+		
+			
+			//使用ajax序列化
+		//$("#login").click(function() {
+			//var user = $("#loginform").serialize();
+			//alert(user);
+			
+			//$.ajax({
+				//type: "POST",
+				//async: false,
+				//contentType:'application/json;charset=UTF-8',
+				//dataType: "json",					
+				//url:'[[@{/index/checkuser}]]',
+				//data:$("#loginform").serialize(),
+				
+				//success:function(data) {
+						//if (data) {
+							//$(location).attr('href', 'http://localhost:8080/index');									
+						//} else {
+							//alert("用户名或者密码错误");
+					//}												
+				//},
+			//});	
+		//});
+	//});
+	
+	
+	
+	$("#login").click(function() {
+		$.ajax({
+			type: "POST",
+			async: true,
+			contentType:'application/json;charset=UTF-8',
+			dataType: "json",					
+			url:'[[@{/index/checkuser}]]',
+			data:"{\"username\":\""+$("#username").val()+"\",\"password\":\""+$("#password").val()+"\"}",
+			
+			success:function(data) {
+					if (data) {
+						$(location).attr('href', 'http://localhost:8080/index');									
+					} else {
+						alert("用户名或者密码错误");
+				}												
+			},
+		});	
+	});
+});
+	
+	
+	
+
+		//$("#start").click(function() {
+
+		//var sessionUid = '[[${session.uid}]]';
+		//var pageIndex = 1;
+		//$.ajax({
+		//type : "POST",
+		//async : false,
+		//url : '[[@{/index/blog/blogPage}]]',
+		//data : {"uid" : sessionUid,
+		//"pageIndex":pageIndex
+		//},
+
+		//success:function() {					
+		//$(location).attr('href', 'http://localhost:8080/index/blog');
+		//}					
+		//});
+		//});
+	</script>
+
+
+
+
+
+
+
+</body>
+</html>

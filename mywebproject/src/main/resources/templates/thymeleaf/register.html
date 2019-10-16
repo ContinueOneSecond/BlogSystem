@@ -1,0 +1,172 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet"
+	href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+
+
+
+
+<style type="text/css">
+#controll {
+	padding-top: 150px;
+}
+</style>
+
+</head>
+<body class="bg-light">
+	<!-- header部分 -->
+	<div th:replace="thymeleaf/header::header"></div>
+
+	<div class="d-flex justify-content-center" id="controll">
+		<div class="col-3">
+			<h4 class="mb-3 text-center">注 册</h4>
+			<hr class="mb-4">
+
+			<form onSubmit="return check();" th:action="@{/index/adduser}"
+				method="post" class="was-validated" novalidate>
+				<div class="mb-3">
+					<label for="username">用户名：</label>
+					<div class="input-group-prepend"></div>
+					<input type="text" class="form-control " id="usernameinput"
+						name="username" placeholder="请输入用户名" required>
+					<div class="valid-feedback" id="usernameInfo"></div>
+				</div>
+
+				<div class="mb-3">
+					<label for="password">密码： <span class="text-muted"></span></label>
+					<input type="password" class="form-control is-invalid" id="passwordinput"
+						name="password" placeholder="请输入密码" required>
+					<div class="invalid-feedback">请输入密码</div>
+				</div>
+				<button class="btn btn-primary btn-lg btn-block disabled"
+					id="sumbitbutton" type="submit">注册</button>
+			</form>
+
+		</div>
+	</div>
+
+
+</body>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+	
+	<script th:src="@{jq/jquery-3.4.1.min.js}" type="text/javascript"></script>
+
+	<!-- <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>	-->
+
+	<script
+		src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+	
+	
+
+
+	<script type="text/javascript">
+		
+		var isName = false;
+		var password =false;
+		var nullValue="";
+	
+		$(function() {		
+			$("#usernameinput").blur(function() {
+								
+				//获得失去焦点时输入框的内容
+				var username = $("#usernameinput").val();
+				var passwrod = $("#passwordinput").val();
+				
+				var reg=/^[\u4e00-\u9fa5_a-zA-Z0-9]+$/;
+						
+				$.ajax({
+					type: "POST",
+					contentType:'application/json;charset=UTF-8',
+					dataType: "json",					
+					url:'[[@{/index/checkusername}]]', 
+					data:"{\"username\":\""+$("#usernameinput").val()+"\"}",
+					
+					success:function(data) {	
+					var usernameInfo="";
+
+					if (data && reg.test(username)) {
+							usernameInfo = "用户名已存在"	;							
+							isName =false;
+										
+					} else if(!reg.test(username)){
+						
+						usernameInfo = "用户名不合法"	;
+						isName =false;
+																							
+					}else if(data != true && reg.test(username)){
+							usernameInfo = "用户名可用";							
+							isName =true;
+					}
+					
+					if(password && isName){
+						$("#sumbitbutton").removeClass("disabled");
+					}else{
+						$("#sumbitbutton").addClass("disabled");
+					}	
+					
+					
+					$("#usernameInfo").text(usernameInfo);
+						return name;
+					}
+				});		
+			});
+			
+			
+			$("#passwordinput").keyup(function(){
+				
+				var passwrod = $("#passwordinput").val();
+								
+				if(passwrod == nullValue){				
+					password =false;
+					
+				}else{
+					password =true;
+				}
+						
+				if(password && isName){
+					$("#sumbitbutton").removeClass("disabled");
+				}else{
+					$("#sumbitbutton").addClass("disabled");
+				}			
+			});
+				return password;						
+			});
+			
+			
+		
+		
+		function check(){			
+			
+			if(password && isName){								
+				return true;
+			}else{							
+				return false;
+			}
+		}
+			
+		
+			
+</script>
+
+</html>

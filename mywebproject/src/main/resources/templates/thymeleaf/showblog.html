@@ -1,0 +1,128 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="stylesheet" href="css/bootstrap.css">
+
+<link rel="stylesheet"
+	href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+</head>
+
+<body class="bg-light">
+
+	<div th:replace="thymeleaf/header::header"></div>
+
+	<div class="container">
+		<div class="row mt-4">
+
+			<div class="col-3 sticky-top">
+				<div class="card mb-3">
+
+					<div class="mt-5 text-center">
+
+						<div class="d-flex justify-content-center mr-3">
+							<img class="rounded-circle mb-2 ml-3"
+								th:src="${session.userPortrait}" width="90" height="90">
+						</div>
+
+						<div class="mb-3">
+							<h5 class="d-flex justify-content-center">
+								<a class="text-dark" href="#" th:text="${session.username}"></a>
+							</h5>
+						</div>
+					</div>
+
+					<p style="font-size: 1rem" class="lead text-center mb-1">这是我的一些想说的话...</p>
+
+					<hr class="mx-3">
+
+					<div class="text-center">
+						<ul class="breadcrumb bg-white d-flex justify-content-center ">
+							<li class="breadcrumb-item "><a href="#" data-toggle="modal">
+									博客数
+									<p class="lead" style="font-size: 1.25rem">12
+									<p>
+							</a></li>
+
+							<li class="breadcrumb-item"><a href="#" data-toggle="modal">
+									Enemies
+									<p class="lead" style="font-size: 1.25rem">1M</p>
+							</a></li>
+						</ul>
+					</div>
+				</div>
+
+
+				<div class="card">
+
+					<div class="mt-3 ml-4 text-left">
+						<p class="text-left">About:</p>
+						<div class="ml-5 mb-3 ">
+							<a class="text-dark lead" style="font-size: 1rem" href="#"><span
+								class="glyphicon glyphicon-home"></span> 我的博客</a></br> <a
+								class="text-dark lead" style="font-size: 1rem" href="#"><span
+								class="glyphicon glyphicon-folder-open"></span> 我的文件</a></br> <a
+								class="text-dark lead" style="font-size: 1rem" href="#"><span
+								class="glyphicon glyphicon-comment"></span> 我的留言板</a></br>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-9">
+				<div class="card ">
+					<div class="card-body">
+						<div>
+
+							<h1 class="mb-1 text-dark" th:text="${blog.blog_title}"
+									id="title">标题
+							</h1>
+							
+							<div class="mb-1 text-muted" th:text="${blog.blog_time}"
+								id="blogtime">时间</div>
+							
+							<hr class="mx-0">
+
+							<div class="card-text mb-auto" th:utext="${blog.blog_body}"
+							   id="blogcontent">体</div>	
+							   					
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+	<script th:src="@{jq/jquery-3.4.1.min.js}" type="text/javascript"></script>
+
+	<!--  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>-->
+
+	<script
+		src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+
+	<script type="text/javascript">
+			
+</script>
+
+
+
+</body>
+</html>

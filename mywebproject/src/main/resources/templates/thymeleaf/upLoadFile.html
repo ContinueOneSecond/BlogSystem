@@ -1,0 +1,131 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="stylesheet" href="css/bootstrap.css">
+
+<link rel="stylesheet"
+	href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+	
+	
+<style type="text/css">
+	#controll {
+		padding-top: 150px;
+	}
+</style>
+</head>
+
+<body class="bg-light">
+
+	<div th:replace="thymeleaf/header::header"></div>
+
+	<div class="container">
+		<div class="bg-white mt-3 border rounded shadow-sm p-3 mb-5" id="#controll">
+			<div class="mx-3 my-3">
+				<h3>文件上传</h3>
+				<form enctype="multipart/form-data" class="was-validated" id="uploadFileForm">
+					
+					<div class="custom-file mb-2">
+						
+    					<input type="file" class="custom-file-input" id="validatedCustomFile" name="uploadFile" required>
+    					<label class="custom-file-label " for="validatedCustomFile">选择文件</label >
+    					<div class="invalid-feedback">请选择你的文件</div>
+  					</div>
+  					
+					<div class="form-group row">
+    					<label for="inputFileName" class="col-form-label" >文件名称：</label>
+    						<div class="col-12">
+     					 		<input type="text" class="form-control" id="inputFileName" placeholder="文件名称" name="fileName" required>
+     					 	<div class="invalid-feedback">
+         						请键入您的文件名
+        				 	</div>
+    					</div>   					
+  					</div>
+  										
+  					<div class="input-group row">
+  						<label for="inputFileName" class="col-form-label">文件描述：</label>
+  							<div class="col-12">
+  								<textarea  class="form-control-lg col-12" aria-label="With textarea" name="file_describe"></textarea >
+  							</div>
+					</div>
+						
+					<div class="d-flex justify-content-end mt-4 mr-4">				
+						<button type="button" class="btn btn-primary col-2" id="uploadFile">上传</button>
+					</div>  									  
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+	<script th:src="@{jq/jquery-3.4.1.min.js}" type="text/javascript"></script>
+
+	<!--  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>-->
+
+	<script
+		src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+
+
+<script type="text/javascript">
+	$(function(){
+		
+		var nullValue="";
+		var uid = '[[${session.uid}]]';
+		
+		$("#inputFileName").click(function(){
+			var urlName = $("#validatedCustomFile").val()
+			var post = urlName.lastIndexOf("\\");
+			var fileName = urlName.substring(post+1);
+			$("#inputFileName").val(fileName);
+		})
+					
+		$("#uploadFile").click(function(){
+			
+			$.ajax({
+				type: "POST",
+				cache:false,
+				url:'[[@{/index/blog/uploadfile}]]',
+				data:new FormData($('#uploadFileForm')[0]),
+				processData: false,
+				contentType:false,
+				success:
+						function(data){
+							if(data){
+								alert("上传成功");
+								$(location).attr('href', 'http://localhost:8080/index/blog/usermassage?pageIndex=1&uid='+uid+'#file_tap');
+							}else{
+								alert("失败");
+						}
+				}
+						
+			})
+		
+		
+		})
+
+	});
+
+
+
+</script>
+
+</body>
+</html>
